@@ -1,5 +1,5 @@
 import {ThumbnailEmbedComponent} from './thumbnail-embed-component';
-import {KalturaPlayer, Player, PlayerWindow} from '../../types';
+import {KalturaPlayer, Player, PlayerWindow} from '../types';
 
 interface ThumbnailEmbedOptions {
   config: any;

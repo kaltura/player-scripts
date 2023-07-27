@@ -1,4 +1,4 @@
-import {KalturaPlayer, PlayerWindow} from '../../types';
+import {KalturaPlayer, PlayerWindow} from '../types';
 
 interface ThumbnailEmbedComponentProps {
   onClick: () => void;
