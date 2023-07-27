@@ -32,13 +32,13 @@ const ThumbnailEmbedComponent = ({onClick: handleClick, src}: ThumbnailEmbedComp
     ? undefined
     : h(
         'div',
-        null,
-        h('img', {src: src, ref, onLoad, onError: onClick}),
+        {style: {width: "100%", height: "100%", position: "relative"}},
+        h('img', {src: src, ref, onLoad, onError: onClick, style: {width: "100%", height: "100%", "object-fit": "contain"}}),
         !isLoaded
           ? undefined
           : h(
               'div',
-              {className: KalturaPlayer.ui.style.prePlaybackPlayOverlay},
+              {className: KalturaPlayer.ui.style.prePlaybackPlayOverlay, style: {width: "100%", height: "100%"}},
               h(
                 Button,
                 {

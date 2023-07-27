@@ -28,7 +28,7 @@ const getCdnUrl = (config: any) => {
   return DEFAULT_CDN_URL;
 };
 
-const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, width, height, version = DEFAULT_VERSION}: ThumbnailEmbedOptions) => {
+const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version = DEFAULT_VERSION}: ThumbnailEmbedOptions) => {
   if (!(config && mediaInfo)) {
     return;
   }
@@ -54,16 +54,13 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, width, height, ve
     '/thumbnail' +
     `/entry_id/${mediaInfo.entryId}` +
     `/version/${version}` +
-    (ks ? `/ks/${ks}` : '') +
-    (width ? `/width/${width}` : '') +
-    (height ? `/height/${height}` : '');
+    `/width/${playerDiv.clientWidth}` +
+    `/height/${playerDiv.clientHeight}` +
+    (ks ? `/ks/${ks}` : '')
 
   const {h, render} = KalturaPlayer.ui.preact;
 
   render(
-    h(
-      'div',
-      {style: 'position: relative; width: fit-content; margin:auto'},
       h(ThumbnailEmbedComponent, {
         src,
         onClick: () => {
@@ -75,7 +72,7 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, width, height, ve
           }
         }
       })
-    ),
+    ,
     playerDiv
   );
 };
