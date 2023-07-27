@@ -1,0 +1,46 @@
+'use strict';
+
+const webpack = require('webpack');
+const path = require('path');
+const packageData = require('./package.json');
+
+const plugins = [
+    new webpack.DefinePlugin({
+        __VERSION__: JSON.stringify(packageData.version),
+        __NAME__: JSON.stringify(packageData.name)
+    })
+];
+
+const config = {
+    context: __dirname + '/src',
+    entry: {
+        "thumbnail-embed": 'thumbnail-embed/index.ts',
+    },
+    output: {
+        path: __dirname + '/dist',
+        filename: '[name].js',
+    },
+    devtool: 'source-map',
+    plugins: plugins,
+    module: {
+        rules: [
+            {
+                test: /\.ts?$/,
+                loader: 'ts-loader',
+                options: {
+                    configFile: path.resolve('./tsconfig.json')
+                },
+                exclude: /node_modules/
+            }
+        ]
+    },
+    resolve: {
+        extensions: ['.ts', '.js'],
+        modules: [path.resolve(__dirname, 'src'), 'node_modules']
+    },
+};
+
+module.exports = () => {
+    config.mode = 'production';
+    return config;
+};

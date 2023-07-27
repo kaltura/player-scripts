@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "allowJs": false,
+    "baseUrl": "./src",
+    "experimentalDecorators": true,
+    "jsx": "react-jsx",
+    "jsxImportSource": "preact",
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "preserveSymlinks": true,
+    "skipLibCheck": true,
+    "sourceMap": false,
+    "strict": true,
+    "target": "ES6",
+    "outDir": "dist"
+  },
+  "lib": ["dom"],
+  "include": ["src/**/*.ts"]
+}
