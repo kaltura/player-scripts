@@ -1,0 +1,20 @@
+{
+  "name": "player-scripts",
+  "version": "1.0.0",
+  "description": "kaltura player scripts",
+  "scripts": {
+    "build": "webpack --mode production"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "prettier": "^3.0.0",
+    "ts-loader": "^9.4.4",
+    "typescript": "^5.1.6",
+    "webpack": "^5.88.2",
+    "webpack-cli": "^5.1.4"
+  },
+  "browserslist": [
+    "defaults"
+  ]
+}
