@@ -3,11 +3,12 @@ import {KalturaPlayer, PlayerWindow} from '../types';
 interface ThumbnailEmbedComponentProps {
   onClick: () => void;
   src: string;
+  bgColor: string;
 }
 
 declare let window: PlayerWindow;
 
-const ThumbnailEmbedComponent = ({onClick: handleClick, src}: ThumbnailEmbedComponentProps) => {
+const ThumbnailEmbedComponent = ({onClick: handleClick, src, bgColor}: ThumbnailEmbedComponentProps) => {
   const KalturaPlayer: KalturaPlayer = window.KalturaPlayer;
 
   const {Button, Icon, IconType} = KalturaPlayer.ui.components;
@@ -32,7 +33,7 @@ const ThumbnailEmbedComponent = ({onClick: handleClick, src}: ThumbnailEmbedComp
     ? undefined
     : h(
         'div',
-        {style: {width: "100%", height: "100%", position: "relative"}},
+        {style: {width: "100%", height: "100%", position: "relative", backgroundColor: bgColor}},
         h('img', {src: src, ref, onLoad, onError: onClick, style: {width: "100%", height: "100%", "object-fit": "contain"}}),
         !isLoaded
           ? undefined
