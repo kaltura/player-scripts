@@ -5,8 +5,6 @@ interface ThumbnailEmbedOptions {
   config: any;
   mediaInfo: any;
   mediaOptions: any;
-  width: number;
-  height: number;
   version: number;
   bgColor: string;
 }
