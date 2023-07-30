@@ -12,6 +12,8 @@ interface ThumbnailEmbedOptions {
 
 const DEFAULT_CDN_URL = 'https://cdnapisec.kaltura.com';
 const DEFAULT_VERSION = 10000;
+const DEFAULT_WIDTH = 1920;
+const DEFAULT_HEIGHT = 1080;
 
 declare let window: PlayerWindow;
 
@@ -47,6 +49,14 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version = DEFAULT
     return;
   }
 
+  let width = DEFAULT_WIDTH;
+  let height = DEFAULT_HEIGHT;
+
+  if (playerDiv.clientWidth && playerDiv.clientHeight) {
+    width = playerDiv.clientWidth;
+    height = playerDiv.clientHeight;
+  }
+
   const src =
     `${cdnUrl.endsWith('/') ? cdnUrl : cdnUrl + '/'}` +
     `p/${partnerId}` +
@@ -54,8 +64,8 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version = DEFAULT
     '/thumbnail' +
     `/entry_id/${mediaInfo.entryId}` +
     `/version/${version}` +
-    `/width/${playerDiv.clientWidth}` +
-    `/height/${playerDiv.clientHeight}` +
+    `/width/${width}` +
+    `/height/${height}` +
     (ks ? `/ks/${ks}` : '')
 
   const {h, render} = KalturaPlayer.ui.preact;
