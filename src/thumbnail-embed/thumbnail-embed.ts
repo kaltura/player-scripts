@@ -13,8 +13,6 @@ const DEFAULT_CDN_URL = 'https://cdnapisec.kaltura.com';
 const DEFAULT_VERSION = 10000;
 const DEFAULT_WIDTH = 1920;
 const DEFAULT_HEIGHT = 1080;
-const DEFAULT_BG_COLOR = "#000";
-
 
 declare let window: PlayerWindow;
 
@@ -31,7 +29,7 @@ const getCdnUrl = (config: any) => {
   return DEFAULT_CDN_URL;
 };
 
-const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version = DEFAULT_VERSION, bgColor=DEFAULT_BG_COLOR}: ThumbnailEmbedOptions) => {
+const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version = DEFAULT_VERSION, bgColor}: ThumbnailEmbedOptions) => {
   if (!(config && mediaInfo)) {
     return;
   }

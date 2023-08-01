@@ -6,9 +6,11 @@ interface ThumbnailEmbedComponentProps {
   bgColor: string;
 }
 
+const DEFAULT_BG_COLOR = "#000";
+
 declare let window: PlayerWindow;
 
-const ThumbnailEmbedComponent = ({onClick: handleClick, src, bgColor}: ThumbnailEmbedComponentProps) => {
+const ThumbnailEmbedComponent = ({onClick: handleClick, src, bgColor=DEFAULT_BG_COLOR}: ThumbnailEmbedComponentProps) => {
   const KalturaPlayer: KalturaPlayer = window.KalturaPlayer;
 
   const {Button, Icon, IconType} = KalturaPlayer.ui.components;
@@ -24,17 +26,22 @@ const ThumbnailEmbedComponent = ({onClick: handleClick, src, bgColor}: Thumbnail
     setIsLoaded(true);
   });
 
+  const onError = useCallback(() => {
+    setIsLoaded(true);
+    setIsEmpty(true);
+  });
+
   const ref = useRef();
 
   const [isVisible, setIsVisible] = useState(true);
-  const [isLoaded, setIsLoaded] = useState(false);
 
-  return !isVisible
-    ? undefined
-    : h(
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  return !isVisible ? undefined : h(
         'div',
-        {style: {width: "100%", height: "100%", position: "relative", backgroundColor: bgColor}},
-        h('img', {src: src, ref, onLoad, onError: onClick, style: {width: "100%", height: "100%", "object-fit": "contain"}}),
+        {style: {width: "100%", height: "100%", position: "relative", backgroundColor: isEmpty ? bgColor : DEFAULT_BG_COLOR}},
+        isEmpty ? undefined : h('img', {src: src, ref, onLoad, onError, style: {width: "100%", height: "100%", "object-fit": "contain"}}),
         !isLoaded
           ? undefined
           : h(
