@@ -3,11 +3,11 @@ name: Merge CI
 
 on:
   push:
-    paths-ignore:
-      - '.github/**'
-      - 'deployment/**'
+#    paths-ignore:
+#      - '.github/**'
+#      - 'deployment/**'
     branches:
-      - master
+      - VCP-13619
 
 jobs:
   install-yarn:
