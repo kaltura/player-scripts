@@ -1,0 +1,33 @@
+## CICD --> Build & Push docker image to ECR + Update image tag in DEV environment
+name: Merge CI
+
+on:
+  push:
+    paths-ignore:
+      - '.github/**'
+      - 'deployment/**'
+    branches:
+      - master
+
+jobs:
+  install-yarn:
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+      - name: install yarn
+        run: |
+          sudo npm cache clean -f
+          sudo npm install -g n
+          sudo n stable
+          sudo npm install -g yarn
+
+  build-client:
+    needs: [ install-yarn ]
+    uses: kaltura/ovp-pipelines/.github/workflows/build_FE.yml@3.1.0
+    with:
+      environment:  nvp1
+      working-dir: "."
+      bucket-name-suffix: static-content
+      bucket-name-key: "content/static/player-scripts"
+      install-command: "npm install"
+      build-command: "yarn run build"
