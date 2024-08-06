@@ -10,7 +10,6 @@ interface ThumbnailEmbedOptions {
 }
 
 const DEFAULT_CDN_URL = 'https://cdnapisec.kaltura.com';
-const DEFAULT_VERSION = 10000;
 const DEFAULT_WIDTH = 1920;
 const DEFAULT_HEIGHT = 1080;
 
@@ -29,7 +28,7 @@ const getCdnUrl = (config: any) => {
   return DEFAULT_CDN_URL;
 };
 
-const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version = DEFAULT_VERSION, bgColor}: ThumbnailEmbedOptions) => {
+const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}: ThumbnailEmbedOptions) => {
   if (!(config && mediaInfo)) {
     return;
   }
