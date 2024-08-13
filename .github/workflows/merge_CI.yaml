@@ -36,9 +36,9 @@ jobs:
     needs: [ install-yarn ]
     uses: kaltura/ovp-pipelines/.github/workflows/build_FE.yml@3.1.0
     with:
-      environment:  nvq2
+      environment: nvq2
       working-dir: "."
-      bucket-name-suffix: static-content
+      bucket-name-suffix: ovp-kalt-static-content
       bucket-name-key: "content/static/player-scripts"
       install-command: "npm install"
       build-command: "yarn run build"
