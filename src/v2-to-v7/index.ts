@@ -1,8 +1,8 @@
-import {embed, thumbEmbed} from './embed';
+import {v2PlayerEmbed, V2PlayerThumbEmbed} from './embeds-converter';
 
 (window as any).kWidget = {
-  embed: embed,
-  thumbEmbed: thumbEmbed
+  embed: v2PlayerEmbed,
+  thumbEmbed: V2PlayerThumbEmbed
 };
 
-export {embed, thumbEmbed};
+export {v2PlayerEmbed, V2PlayerThumbEmbed};

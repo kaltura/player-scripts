@@ -1,5 +1,5 @@
-import {ConfigFromV2, MediaInfo} from './types'
-import {parseFlashvars} from './flashvars';
+import {ConfigFromV2, DefaultConfig, MediaInfo} from '../types'
+import {addFlashvarsToConfig} from './flashvars-handler';
 
 export const getInfoFromV2Config = (config: any): ConfigFromV2 => {
   return {
@@ -32,9 +32,18 @@ export const getMediaInfo = (config: any): MediaInfo => {
 };
 
 export const buildConfigFromFlashvars = (config: any): any => {
-  if (config.hasOwnProperty('flashvars')) {
-    const flashvars = config.flashvars;
-    return parseFlashvars(flashvars);
+  if (config.hasOwnProperty('flashvars') && Object.keys(config['flashvars']).length > 0) {
+    let defaultConfig: DefaultConfig = {
+      log: {},
+      text: {},
+      playback: {},
+      streaming: {},
+      abr: {},
+      drm: {},
+      network: {},
+      plugins: {}
+    };
+    return addFlashvarsToConfig(config.flashvars, defaultConfig);
   }
 
   return {};
@@ -42,5 +51,6 @@ export const buildConfigFromFlashvars = (config: any): any => {
 
 const LOGGER_NAME = '[V2 To V7]';
 export const logger = {
-  log: (...args: any[]) => console.log(`${LOGGER_NAME}`, ...args)
+  log: (...args: any[]) => console.log(`${LOGGER_NAME}`, ...args),
+  error: (...args: any[]) => console.error(`${LOGGER_NAME}`, ...args)
 };

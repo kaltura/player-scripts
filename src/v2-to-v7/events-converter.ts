@@ -1,10 +1,11 @@
 import {ListenerDetails} from './types';
 import {Player} from '../types';
-import {logger} from './utils';
+import {logger} from './utils/utils';
 
 export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer: Player) => {
   const { eventName, eventCallback } = listenerDetails;
   switch (eventName) {
+    // PLAYBACK RELATED
     case 'mediaLoaded':
     case 'mediaReady':
       kalturaPlayer.addEventListener('medialoaded', () => {
@@ -38,16 +39,38 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
         eventCallback(event.payload.newState.type);
       });
       break;
-    case 'playerPaused':
-      kalturaPlayer.addEventListener('pause', () => {
+    case 'playerUpdatePlayhead':
+      kalturaPlayer.addEventListener('timeupdate', (event: any) => {
+        eventCallback(event.currentTarget.currentTime);
+      });
+      break;
+    case 'changeMediaProcessStarted':
+      kalturaPlayer.addEventListener('changesourcestarted', (event: any) => {
+        eventCallback(event.currentTarget.sources.id);
+      });
+      break;
+    case 'metadataReceived':
+      kalturaPlayer.addEventListener('loadedmetadata', () => {
         eventCallback();
       });
       break;
-    case 'playerPlayed':
-      kalturaPlayer.addEventListener('play', () => {
-        eventCallback();
+    case 'switchingChangeComplete':
+      kalturaPlayer.addEventListener('videotrackchanged', (event: any) => {
+        eventCallback({currentBitrate: event.payload.selectedVideoTrack.height});
       });
       break;
+    case 'cuePointReached':
+      kalturaPlayer.addEventListener('timedmetadatachange', (event: any) => {
+        eventCallback(event.payload.cues);
+      });
+      break;
+    case 'cuePointsReceived':
+      kalturaPlayer.addEventListener('timedmetadataadded', (event: any) => {
+        eventCallback(event.payload.cues);
+      });
+      break;
+
+    // USER INTERACTIONS
     case 'userInitiatedPlay':
       kalturaPlayer.addEventListener('playkit-ui-userclickedplay', () => {
         eventCallback();
@@ -58,6 +81,23 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
         eventCallback();
       });
       break;
+    case 'userInitiatedSeek':
+      kalturaPlayer.addEventListener('playkit-ui-userseeked', () => {
+        eventCallback();
+      });
+      break;
+
+    // CORE FUNCTIONALITY
+    case 'playerPaused':
+      kalturaPlayer.addEventListener('pause', () => {
+        eventCallback();
+      });
+      break;
+    case 'playerPlayed':
+      kalturaPlayer.addEventListener('play', () => {
+        eventCallback();
+      });
+      break;
     case 'seek':
       kalturaPlayer.addEventListener('seeking', () => {
         eventCallback();
@@ -65,16 +105,6 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
       break;
     case 'seeked':
       kalturaPlayer.addEventListener('seeked', (event: any) => {
-        eventCallback(event.currentTarget.currentTime);
-      });
-      break;
-    case 'userInitiatedSeek':
-      kalturaPlayer.addEventListener('playkit-ui-userseeked', () => {
-        eventCallback();
-      });
-      break;
-    case 'playerUpdatePlayhead':
-      kalturaPlayer.addEventListener('timeupdate', (event: any) => {
         eventCallback(event.currentTarget.currentTime);
       });
       break;
@@ -108,21 +138,6 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
         }
       });
       break;
-    case 'changeMediaProcessStarted':
-      kalturaPlayer.addEventListener('changesourcestarted', (event: any) => {
-        eventCallback(event.currentTarget.sources.id);
-      });
-      break;
-    case 'metadataReceived':
-      kalturaPlayer.addEventListener('loadedmetadata', () => {
-        eventCallback();
-      });
-      break;
-    case 'switchingChangeComplete':
-      kalturaPlayer.addEventListener('videotrackchanged', (event: any) => {
-        eventCallback({currentBitrate: event.payload.selectedVideoTrack.height});
-      });
-      break;
     case 'closedCaptionsHidden':
       kalturaPlayer.addEventListener('texttrackchanged', (event: any) => {
         if (event.payload.selectedTextTrack.language === 'off') {
@@ -143,6 +158,7 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
         eventCallback(event.payload.selectedTextTrack.language);
       });
       break;
+
     // PLAYLIST EVENTS:
     case 'playlistReady':
       kalturaPlayer.addEventListener('kaltura-player-playlistloaded', () => {
@@ -173,16 +189,8 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
         }
       });
       break;
-    case 'cuePointReached':
-      kalturaPlayer.addEventListener('timedmetadatachange', (event: any) => {
-        eventCallback(event.payload.cues);
-      });
-      break;
-    case 'cuePointsReceived':
-      kalturaPlayer.addEventListener('timedmetadataadded', (event: any) => {
-        eventCallback(event.payload.cues);
-      });
-      break;
+
+    // PLUGINS
     case 'pluginsLoaded':
       kalturaPlayer.addEventListener('registeredpluginslistevent', (event: any) => {
         eventCallback(event.payload);
@@ -196,6 +204,8 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
         eventCallback({entryId: event.currentTarget._mediaInfo.entryId});
       });
       break;
+
+    // ERRORS
     case 'entryNotAvailable':
       kalturaPlayer.addEventListener('error', (event: any) => {
         const errorCategory = event.payload.category;

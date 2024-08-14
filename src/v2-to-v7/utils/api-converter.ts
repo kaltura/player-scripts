@@ -1,4 +1,4 @@
-import {Player} from '../types';
+import {Player} from '../../types';
 import {logger} from './utils';
 
 const isMobileDevice = (ua: string): boolean => {
@@ -72,7 +72,7 @@ const addAPIToPlayerElement = (targetId: string): void => {
   logger.log('Finished adding V2 API to the player element.');
 };
 
-export const supportV2API = (targetId: string) => {
+export const attachV2API = (targetId: string) => {
   logger.log('Adding support to V2 API');
   addKWidgetAPI(targetId);
   addAPIToPlayerElement(targetId);

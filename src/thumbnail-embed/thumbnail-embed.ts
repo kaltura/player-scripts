@@ -1,8 +1,8 @@
 import {ThumbnailEmbedComponent} from './thumbnail-embed-component';
 import {KalturaPlayer, Player, PlayerWindow} from '../types';
 import {ListenerDetails} from '../v2-to-v7/types';
-import {attachV7Listener} from '../v2-to-v7/events';
-import {supportV2API} from '../v2-to-v7/api';
+import {attachV7Listener} from '../v2-to-v7/events-converter';
+import {attachV2API} from '../v2-to-v7/utils/api-converter';
 
 export interface ThumbnailEmbedOptions {
   config: any;
@@ -55,7 +55,7 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
     (playerDiv as any).addJsListener = (eventName: string, callback: () => void) => {
       listenersQueue.push({eventName, eventCallback: callback});
     };
-    supportV2API(targetId);
+    attachV2API(targetId);
   }
 
   let width = DEFAULT_WIDTH;

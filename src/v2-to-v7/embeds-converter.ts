@@ -1,15 +1,15 @@
 import {KalturaPlayer, Player, PlayerWindow} from '../types';
 import {thumbnailEmbed} from '../thumbnail-embed';
 import {ThumbnailEmbedOptions} from '../thumbnail-embed/thumbnail-embed';
-import {buildConfigFromFlashvars, getInfoFromV2Config} from './utils';
-import {attachV7Listener} from './events';
-import {supportV2API} from './api';
+import {buildConfigFromFlashvars, getInfoFromV2Config, logger} from './utils/utils';
+import {attachV7Listener} from './events-converter';
+import {attachV2API} from './utils/api-converter';
 
 declare let window: PlayerWindow;
 
 const KalturaPlayer: KalturaPlayer = window.KalturaPlayer;
 
-const supportV2Events = (targetId: string, kalturaPlayer: Player): void => {
+const attachV2Events = (targetId: string, kalturaPlayer: Player): void => {
   const playerDiv = document.getElementById(targetId);
   if (playerDiv) {
     (playerDiv as any).addJsListener = (eventName: string, callback: () => void) => {
@@ -18,7 +18,7 @@ const supportV2Events = (targetId: string, kalturaPlayer: Player): void => {
   }
 };
 
-const embed = (v2Config: any) => {
+const v2PlayerEmbed = (v2Config: any) => {
   const {targetId, partnerId, mediaInfo} = getInfoFromV2Config(v2Config);
 
   let config: any = {
@@ -26,9 +26,9 @@ const embed = (v2Config: any) => {
     log: {
       level: 'DEBUG'
     },
-    targetId: targetId,
+    targetId,
     provider: {
-      partnerId: partnerId
+      partnerId
     }
   };
 
@@ -38,8 +38,8 @@ const embed = (v2Config: any) => {
   try {
     const kalturaPlayer: Player = KalturaPlayer.setup(mergedConfig);
 
-    supportV2Events(targetId, kalturaPlayer);
-    supportV2API(targetId);
+    attachV2Events(targetId, kalturaPlayer);
+    attachV2API(targetId);
 
     const entryId = mediaInfo.id;
     if (mediaInfo.isPlaylist) {
@@ -48,17 +48,17 @@ const embed = (v2Config: any) => {
       kalturaPlayer.loadMedia({entryId: entryId});
     }
   } catch (e) {
-    /* */
+    logger.error('Failed to execute embed from V2 to V7.');
   }
 };
 
-const thumbEmbed = (v2Config: any) => {
+const V2PlayerThumbEmbed = (v2Config: any) => {
   const {targetId, partnerId, mediaInfo} = getInfoFromV2Config(v2Config);
   try {
     let config = {
-      targetId: targetId,
+      targetId,
       provider: {
-        partnerId: partnerId
+        partnerId
       }
     };
 
@@ -73,8 +73,8 @@ const thumbEmbed = (v2Config: any) => {
     };
     thumbnailEmbed(thumbnailEmbedConfig, true);
   } catch (e) {
-    /* */
+    logger.error('Failed to execute thumbnail embed from V2 to V7.');
   }
 };
 
-export {embed, thumbEmbed};
+export {v2PlayerEmbed, V2PlayerThumbEmbed};
