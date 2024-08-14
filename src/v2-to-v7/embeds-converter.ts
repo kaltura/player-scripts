@@ -1,7 +1,7 @@
 import {KalturaPlayer, Player, PlayerWindow} from '../types';
 import {thumbnailEmbed} from '../thumbnail-embed';
 import {ThumbnailEmbedOptions} from '../thumbnail-embed/thumbnail-embed';
-import {buildConfigFromFlashvars, getInfoFromV2Config, logger} from './utils/utils';
+import {buildConfigFromFlashvars, getConfigIdsFromV2Config, logger} from './utils/utils';
 import {attachV7Listener} from './events-converter';
 import {attachV2API} from './utils/api-converter';
 
@@ -19,7 +19,7 @@ const attachV2Events = (targetId: string, kalturaPlayer: Player): void => {
 };
 
 const v2PlayerEmbed = (v2Config: any) => {
-  const {targetId, partnerId, mediaInfo} = getInfoFromV2Config(v2Config);
+  const {targetId, partnerId, mediaInfo} = getConfigIdsFromV2Config(v2Config);
 
   let config: any = {
     // TODO: remove log config when done
@@ -53,7 +53,7 @@ const v2PlayerEmbed = (v2Config: any) => {
 };
 
 const V2PlayerThumbEmbed = (v2Config: any) => {
-  const {targetId, partnerId, mediaInfo} = getInfoFromV2Config(v2Config);
+  const {targetId, partnerId, mediaInfo} = getConfigIdsFromV2Config(v2Config);
   try {
     let config = {
       targetId,

@@ -1,7 +1,7 @@
 import {ConfigFromV2, DefaultConfig, MediaInfo} from '../types'
 import {addFlashvarsToConfig} from './flashvars-handler';
 
-export const getInfoFromV2Config = (config: any): ConfigFromV2 => {
+export const getConfigIdsFromV2Config = (config: any): ConfigFromV2 => {
   return {
     targetId: config['targetId'],
     partnerId: config['wid'].match(/\d+/g).join(''),
