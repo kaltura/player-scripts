@@ -51,6 +51,6 @@ export const buildConfigFromFlashvars = (config: any): any => {
 
 const LOGGER_NAME = '[V2 To V7]';
 export const logger = {
-  log: (...args: any[]) => console.log(`${LOGGER_NAME}`, ...args),
+  log: (...args: any[]) => console.info(`${LOGGER_NAME}`, ...args),
   error: (...args: any[]) => console.error(`${LOGGER_NAME}`, ...args)
 };
