@@ -1,5 +1,4 @@
-import {ConfigFromV2, DefaultConfig, MediaInfo} from '../types'
-import {addFlashvarsToConfig} from './flashvars-handler';
+import {ConfigFromV2, MediaInfo} from '../types'
 
 export const getConfigIdsFromV2Config = (config: any): ConfigFromV2 => {
   return {
@@ -31,26 +30,25 @@ export const getMediaInfo = (config: any): MediaInfo => {
   }
 };
 
-export const buildConfigFromFlashvars = (config: any): any => {
-  if (config.hasOwnProperty('flashvars') && Object.keys(config['flashvars']).length > 0) {
-    let defaultConfig: DefaultConfig = {
-      log: {},
-      text: {},
-      playback: {},
-      streaming: {},
-      abr: {},
-      drm: {},
-      network: {},
-      plugins: {}
-    };
-    return addFlashvarsToConfig(config.flashvars, defaultConfig);
-  }
-
-  return {};
-};
-
 const LOGGER_NAME = '[V2 To V7]';
 export const logger = {
   log: (...args: any[]) => console.info(`${LOGGER_NAME}`, ...args),
   error: (...args: any[]) => console.error(`${LOGGER_NAME}`, ...args)
 };
+
+export const mergeDeep = (target: Record<string, any>, source: Record<string, any>): Record<string, any> => {
+  const result = { ...target }; // Start with a shallow copy of the target
+
+  Object.keys(source).forEach(key => {
+    if (source[key] && typeof source[key] === 'object' && !Array.isArray(source[key])) {
+      if (!result[key]) {
+        result[key] = {};
+      }
+      result[key] = mergeDeep(result[key], source[key]);
+    } else {
+      result[key] = source[key];
+    }
+  });
+
+  return result;
+}

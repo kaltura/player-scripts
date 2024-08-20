@@ -1,9 +1,10 @@
 import {KalturaPlayer, Player, PlayerWindow} from '../types';
 import {thumbnailEmbed} from '../thumbnail-embed';
 import {ThumbnailEmbedOptions} from '../thumbnail-embed/thumbnail-embed';
-import {buildConfigFromFlashvars, getConfigIdsFromV2Config, logger} from './utils/utils';
+import {getConfigIdsFromV2Config, logger, mergeDeep} from './utils/utils';
 import {attachV7Listener} from './events-converter';
 import {attachV2API} from './utils/api-converter';
+import {getConfigFromFlashvars} from './utils/flashvars-handler';
 
 declare let window: PlayerWindow;
 
@@ -32,8 +33,8 @@ const v2PlayerEmbed = (v2Config: any) => {
     }
   };
 
-  const convertedFlashvars = buildConfigFromFlashvars(v2Config);
-  const mergedConfig = Object.assign({}, config, convertedFlashvars);
+  const convertedFlashvars = getConfigFromFlashvars(v2Config.flashvars);
+  const mergedConfig = mergeDeep(config, convertedFlashvars);
 
   try {
     const kalturaPlayer: Player = KalturaPlayer.setup(mergedConfig);
@@ -62,8 +63,8 @@ const V2PlayerThumbEmbed = (v2Config: any) => {
       }
     };
 
-    const convertedFlashvars = buildConfigFromFlashvars(v2Config);
-    const mergedConfig = Object.assign({}, config, convertedFlashvars);
+    const convertedFlashvars = getConfigFromFlashvars(v2Config.flashvars);
+    const mergedConfig = mergeDeep(config, convertedFlashvars);
 
     const thumbnailEmbedConfig: ThumbnailEmbedOptions = {
       config: mergedConfig,
