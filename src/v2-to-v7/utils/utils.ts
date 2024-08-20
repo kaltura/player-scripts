@@ -17,11 +17,12 @@ export const getMediaInfo = (config: any): MediaInfo => {
   }
 
   let playlistId = '';
-  const flashvars = config['flashvars'];
+  const flashvars = config.flashvars;
+
   if (flashvars.hasOwnProperty('playlistAPI.kpl0Id')) {
     playlistId = flashvars['playlistAPI.kpl0Id'];
-  } else if (flashvars.hasOwnProperty('playlistAPI') && flashvars['playlistAPI'].hasOwnProperty('kpl0Id')) {
-    playlistId = flashvars['playlistAPI']['kpl0Id'];
+  } else if (flashvars.playlistAPI?.kpl0Id) {
+    playlistId = flashvars.playlistAPI.kpl0Id;
   }
 
   return {

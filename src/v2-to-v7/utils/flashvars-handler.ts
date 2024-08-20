@@ -3,7 +3,10 @@ const flashvarsKeyMapping: Record<string, string> = {
   "localizationCode": "ui.locale",
   "EmbedPlayer.EnableIpadNativeFullscreen": "playback.inBrowserFullscreen",
   "EmbedPlayer.WebKitPlaysInline": "playback.playsinline",
-  "autoPlay": "playback.autoplay"
+  "autoPlay": "playback.autoplay",
+  "applicationName": "plugins.kava.application",
+  "playbackContext": "plugins.kava.playbackContext",
+  "autoMute": "playback.muted"
 };
 
 export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<string,any> => {
