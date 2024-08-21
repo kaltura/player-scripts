@@ -7,7 +7,20 @@ const flashvarsKeyMapping: Record<string, string> = {
   "applicationName": "plugins.kava.application",
   "playbackContext": "plugins.kava.playbackContext",
   "autoMute": "playback.muted",
-  "uiconf_id": "provider.uiConfId"
+  "uiconf_id": "provider.uiConfId",
+  "thumbnailUrl": "sources.poster",
+  "loop": "playback.loop",
+  "closedCaptions.displayCaptions": "playback.captionsDisplay",
+  "autoPlayFallbackToMute": "playback.allowMutedAutoPlay",
+  "playlistAPI.autoContinue": "playlist.options.autoContinue",
+  "loadThumbnailWithKs": "provider.loadThumbnailWithKs",
+  "closedCaptions.defaultLanguageKey": "playback.textLanguage",
+  "preload": "playback.preload",
+  "qna.containerPosition": "qna.position",
+  "qna.userId": "qna.userId",
+  "qna.userRole": "qna.userRole",
+  "watermark.watermarkPath": "ui.components.watermark.url",
+  "mediaProxy.mediaPlayFrom": "sources.startTime"
 };
 
 export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<string,any> => {
