@@ -49,7 +49,7 @@ const v2PlayerEmbed = (v2Config: any) => {
       kalturaPlayer.loadMedia({entryId: entryId});
     }
   } catch (e) {
-    logger.error('Failed to execute embed from V2 to V7.');
+    logger.error('Failed to execute embed from V2 to V7.', e);
   }
 };
 
@@ -74,7 +74,7 @@ const V2PlayerThumbEmbed = (v2Config: any) => {
     };
     thumbnailEmbed(thumbnailEmbedConfig, true);
   } catch (e) {
-    logger.error('Failed to execute thumbnail embed from V2 to V7.');
+    logger.error('Failed to execute thumbnail embed from V2 to V7.', e);
   }
 };
 

@@ -6,7 +6,8 @@ const flashvarsKeyMapping: Record<string, string> = {
   "autoPlay": "playback.autoplay",
   "applicationName": "plugins.kava.application",
   "playbackContext": "plugins.kava.playbackContext",
-  "autoMute": "playback.muted"
+  "autoMute": "playback.muted",
+  "uiconf_id": "provider.uiConfId"
 };
 
 export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<string,any> => {
@@ -14,61 +15,45 @@ export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<st
     return {};
   }
 
-  const flatFlashvars = flattenDotNotationFlashvarsToNestedObject(flashvars || {});
+  const flatFlashvars = flattenToDotNotation(flashvars);
   return buildConfigFromFlashvars(flatFlashvars);
 };
 
 export const buildConfigFromFlashvars = (flashvars: Record<string, any>): Record<string, any> => {
   const result: Record<string, any> = {};
 
-  const recursiveMap = (currentObj: Record<string, any>, parentKey: string = '') => {
-    Object.keys(currentObj).forEach(key => {
-      const fullKey = parentKey ? `${parentKey}.${key}` : key;
-      const mappedPath = flashvarsKeyMapping[fullKey];
+  Object.keys(flashvars).forEach(key => {
+    const mappedPath = flashvarsKeyMapping[key];
 
-      if (mappedPath) {
-        const newKeyPath = mappedPath.split('.');
-        let current = result;
+    if (mappedPath) {
+      const newKeyPath = mappedPath.split('.');
+      let current = result;
 
-        newKeyPath.forEach((newKey, index) => {
-          if (index === newKeyPath.length - 1) {
-            current[newKey] = currentObj[key];
-          } else {
-            if (!current[newKey]) {
-              current[newKey] = {};
-            }
-            current = current[newKey];
+      newKeyPath.forEach((newKey, index) => {
+        if (index === newKeyPath.length - 1) {
+          current[newKey] = flashvars[key];
+        } else {
+          if (!current[newKey]) {
+            current[newKey] = {};
           }
-        });
-      } else if (typeof currentObj[key] === 'object' && currentObj[key] !== null) {
-        recursiveMap(currentObj[key], fullKey);
-      }
-    });
-  }
+          current = current[newKey];
+        }
+      });
+    }
+  });
 
-  recursiveMap(flashvars);
   return result;
 };
 
-const flattenDotNotationFlashvarsToNestedObject = (flashvars: Record<string, any>): Record<string, any> => {
-  const result: Record<string, any> = {};
+const flattenToDotNotation = (obj: Record<string, any>, parentKey = '', result: Record<string, any> = {}): Record<string, any> => {
+  Object.keys(obj).forEach(key => {
+    const newKey = parentKey ? `${parentKey}.${key}` : key;
 
-  Object.keys(flashvars).forEach(fullKey => {
-    const keys = fullKey.split('.');
-    let current = result;
-
-    keys.forEach((key, index) => {
-      if (index === keys.length - 1) {
-        // if it's the last key, set the value
-        current[key] = flashvars[fullKey];
-      } else {
-        // Otherwise, initialize an empty object if it doesn't exist
-        if (!current[key]) {
-          current[key] = {};
-        }
-        current = current[key];
-      }
-    });
+    if (typeof obj[key] === 'object' && obj[key] !== null && !Array.isArray(obj[key])) {
+      flattenToDotNotation(obj[key], newKey, result);
+    } else {
+      result[newKey] = obj[key];
+    }
   });
 
   return result;
