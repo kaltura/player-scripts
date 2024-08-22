@@ -1,3 +1,6 @@
+/**
+ * A key mapping, where the key is the V2 flashvar configuration name and the value is the correlated V7 configuration path.
+ */
 const flashvarsKeyMapping: Record<string, string> = {
   "ks": "provider.ks",
   "localizationCode": "ui.locale",
@@ -20,9 +23,13 @@ const flashvarsKeyMapping: Record<string, string> = {
   "qna.userId": "qna.userId",
   "qna.userRole": "qna.userRole",
   "watermark.watermarkPath": "ui.components.watermark.url",
-  "mediaProxy.mediaPlayFrom": "sources.startTime"
+  "mediaProxy.mediaPlayFrom": "sources.startTime",
+  "playlistAPI.initItemEntryId": "playlist.options.startAtEntryId"
 };
 
+/**
+ * Gets the V7 configuration, based of the V2 flashvars..
+ */
 export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<string,any> => {
   if (!flashvars || Object.keys(flashvars).length === 0) {
     return {};
@@ -32,15 +39,18 @@ export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<st
   return buildConfigFromFlashvars(flatFlashvars);
 };
 
+/**
+ * Builds the V7 configuration object according to the V2 flashvars.
+ */
 export const buildConfigFromFlashvars = (flashvars: Record<string, any>): Record<string, any> => {
-  const result: Record<string, any> = {};
+  const config: Record<string, any> = initializeConfig(flashvars);
 
   Object.keys(flashvars).forEach(key => {
     const mappedPath = flashvarsKeyMapping[key];
 
     if (mappedPath) {
       const newKeyPath = mappedPath.split('.');
-      let current = result;
+      let current = config;
 
       newKeyPath.forEach((newKey, index) => {
         if (index === newKeyPath.length - 1) {
@@ -55,9 +65,42 @@ export const buildConfigFromFlashvars = (flashvars: Record<string, any>): Record
     }
   });
 
-  return result;
+  return config;
 };
 
+/**
+ * Initializes the V7 configuration object with some V2 flashvars that require specific attention.
+ */
+const initializeConfig = (flashvars: Record<string, any>): Record<string, any> => {
+  let config: Record<string, any> = {};
+
+  if (flashvars["playbackRateSelector.speeds"]) {
+    config = {
+      playback: {
+        playbackRates: flashvars["playbackRateSelector.speeds"].split(",").map((speed: string) => Number(speed))
+      }
+    };
+  }
+
+  if (flashvars["youbora.username"]) {
+    config = {
+      ...config,
+      plugins: {
+        youbora: {
+          options: {
+            'user.name': flashvars["youbora.username"]
+          }
+        }
+      }
+    };
+  }
+
+  return config;
+}
+
+/**
+ * Converts a nested object to a dot notation object.
+ */
 const flattenToDotNotation = (obj: Record<string, any>, parentKey = '', result: Record<string, any> = {}): Record<string, any> => {
   Object.keys(obj).forEach(key => {
     const newKey = parentKey ? `${parentKey}.${key}` : key;
