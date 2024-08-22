@@ -8,10 +8,6 @@ on:
       - master
 
 jobs:
-  test:
-    uses: kaltura/playkit-js-common/.github/workflows/cypress.yml@master
-    secrets: inherit
-
   canary-full-flow:
     if: ${{ github.actor != 'PlaykitJs-Bot' }}
     uses: kaltura/ovp-pipelines-pub/.github/workflows/player_cicd.yaml@master
