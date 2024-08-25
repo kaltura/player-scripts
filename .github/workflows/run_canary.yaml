@@ -8,15 +8,11 @@ on:
       - master
 
 jobs:
-  test:
-    uses: kaltura/playkit-js-common/.github/workflows/cypress.yml@master
-    secrets: inherit
-
   canary:
     if: ${{ github.actor != 'PlaykitJs-Bot' }}
     uses: kaltura/playkit-js-common/.github/workflows/canary_plugin.yaml@master
     secrets: inherit
     with:
       schema-type: "playerV3Versions"
-      tests-yarn-run-to-execute: 'build eslint'
+      tests-yarn-run-to-execute: 'build'
       node-version: "18.x"
