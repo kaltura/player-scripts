@@ -122,7 +122,7 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
         });
         break;
 
-      // PLAYLIST EVENTS:
+      // PLAYLIST EVENTS
       case 'playlistFirstEntry':
         kalturaPlayer.addEventListener('kaltura-player-playlistitemchanged', (event: any) => {
           if (event.payload.index === 0) {

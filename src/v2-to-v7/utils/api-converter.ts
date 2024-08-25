@@ -9,16 +9,6 @@ const isIOS = (ua: string): boolean => {
   return /iPad|iPhone|iPod/i.test(ua);
 };
 
-const isIE = (ua: string): boolean => {
-  // IE 10 or older
-  const isOldIE = ua.indexOf('MSIE') !== -1;
-
-  // IE 11
-  const isIE11 = ua.indexOf('Trident/') !== -1;
-
-  return isOldIE || isIE11;
-};
-
 const getPlayer = (targetId: string): Player | undefined => {
   return (window as any).KalturaPlayer.getPlayer(targetId);
 };
@@ -37,8 +27,8 @@ const addKWidgetAPI = (targetId: string): void => {
     supportsHTML5: () => true,
     supportsFlash: () => false,
     isIOS: () => getPlayer(targetId)?.env.isIOS || isIOS(ua),
-    isIE: () => isIE(ua),
-    isIE8: () => (document as any).documentMode === 8,
+    isIE: () => false,
+    isIE8: () => false,
     isAndroid: () => /Android/i.test(ua),
     isWindowsDevice: () => /Windows/i.test(ua),
     addReadyCallback: () => {},

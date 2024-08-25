@@ -1,4 +1,7 @@
-import {ConfigFromV2, MediaInfo} from '../types'
+import {ConfigFromV2, MediaInfo} from '../types';
+
+const PLAYLIST_KPL0ID = 'playlistAPI.kpl0Id';
+const ENTRY_ID = 'entry_id';
 
 export const getConfigIdsFromV2Config = (config: any): ConfigFromV2 => {
   return {
@@ -9,9 +12,9 @@ export const getConfigIdsFromV2Config = (config: any): ConfigFromV2 => {
 };
 
 export const getMediaInfo = (config: any): MediaInfo => {
-  if (config['entry_id']) {
+  if (config[ENTRY_ID]) {
     return {
-      id: config['entry_id'],
+      id: config[ENTRY_ID],
       isPlaylist: false
     }
   }
@@ -19,8 +22,8 @@ export const getMediaInfo = (config: any): MediaInfo => {
   let playlistId = '';
   const flashvars = config.flashvars;
 
-  if (flashvars.hasOwnProperty('playlistAPI.kpl0Id')) {
-    playlistId = flashvars['playlistAPI.kpl0Id'];
+  if (flashvars.hasOwnProperty(PLAYLIST_KPL0ID)) {
+    playlistId = flashvars[PLAYLIST_KPL0ID];
   } else if (flashvars.playlistAPI?.kpl0Id) {
     playlistId = flashvars.playlistAPI.kpl0Id;
   }

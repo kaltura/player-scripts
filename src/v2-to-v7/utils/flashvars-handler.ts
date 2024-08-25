@@ -27,8 +27,11 @@ const flashvarsKeyMapping: Record<string, string> = {
   "playlistAPI.initItemEntryId": "playlist.options.startAtEntryId"
 };
 
+const PLAYBACK_RATE_SELECTOR_SPEEDS = 'playbackRateSelector.speeds';
+const YOUBORA_USERNAME = 'youbora.username';
+
 /**
- * Gets the V7 configuration, based of the V2 flashvars..
+ * Gets the V7 configuration, based of the V2 flashvars.
  */
 export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<string,any> => {
   if (!flashvars || Object.keys(flashvars).length === 0) {
@@ -49,11 +52,11 @@ export const buildConfigFromFlashvars = (flashvars: Record<string, any>): Record
     const mappedPath = flashvarsKeyMapping[key];
 
     if (mappedPath) {
-      const newKeyPath = mappedPath.split('.');
+      const newKeyPathParts = mappedPath.split('.');
       let current = config;
 
-      newKeyPath.forEach((newKey, index) => {
-        if (index === newKeyPath.length - 1) {
+      newKeyPathParts.forEach((newKey, index) => {
+        if (index === newKeyPathParts.length - 1) {
           current[newKey] = flashvars[key];
         } else {
           if (!current[newKey]) {
@@ -74,21 +77,21 @@ export const buildConfigFromFlashvars = (flashvars: Record<string, any>): Record
 const initializeConfig = (flashvars: Record<string, any>): Record<string, any> => {
   let config: Record<string, any> = {};
 
-  if (flashvars["playbackRateSelector.speeds"]) {
+  if (flashvars[PLAYBACK_RATE_SELECTOR_SPEEDS]) {
     config = {
       playback: {
-        playbackRates: flashvars["playbackRateSelector.speeds"].split(",").map((speed: string) => Number(speed))
+        playbackRates: flashvars[PLAYBACK_RATE_SELECTOR_SPEEDS].split(",").map((speed: string) => Number(speed))
       }
     };
   }
 
-  if (flashvars["youbora.username"]) {
+  if (flashvars[YOUBORA_USERNAME]) {
     config = {
       ...config,
       plugins: {
         youbora: {
           options: {
-            'user.name': flashvars["youbora.username"]
+            'user.name': flashvars[YOUBORA_USERNAME]
           }
         }
       }
