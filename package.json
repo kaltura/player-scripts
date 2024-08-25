@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "kaltura player scripts",
   "scripts": {
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "release": "standard-version"
   },
   "author": "",
   "license": "ISC",
