@@ -77,7 +77,7 @@ export const buildConfigFromFlashvars = (flashvars: Record<string, any>): Record
 const initializeConfig = (flashvars: Record<string, any>): Record<string, any> => {
   let config: Record<string, any> = {};
 
-  if (flashvars[PLAYBACK_RATE_SELECTOR_SPEEDS]) {
+  if (typeof flashvars[PLAYBACK_RATE_SELECTOR_SPEEDS] === 'string') {
     config = {
       playback: {
         playbackRates: flashvars[PLAYBACK_RATE_SELECTOR_SPEEDS].split(",").map((speed: string) => Number(speed))
