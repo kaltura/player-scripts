@@ -1,12 +1,15 @@
 import {ThumbnailEmbedComponent} from './thumbnail-embed-component';
 import {KalturaPlayer, Player, PlayerWindow} from '../types';
+import {ListenerDetails} from '../v2-to-v7/types';
+import {attachV7Listener} from '../v2-to-v7/events-converter';
+import {attachV2API} from '../v2-to-v7/utils/api-converter';
 
-interface ThumbnailEmbedOptions {
+export interface ThumbnailEmbedOptions {
   config: any;
   mediaInfo: any;
-  mediaOptions: any;
-  version: number;
-  bgColor: string;
+  mediaOptions?: any;
+  version?: number;
+  bgColor?: string;
 }
 
 const DEFAULT_CDN_URL = 'https://cdnapisec.kaltura.com';
@@ -28,7 +31,7 @@ const getCdnUrl = (config: any) => {
   return DEFAULT_CDN_URL;
 };
 
-const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}: ThumbnailEmbedOptions) => {
+const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}: ThumbnailEmbedOptions, isV2ToV7 = false) => {
   if (!(config && mediaInfo)) {
     return;
   }
@@ -45,6 +48,14 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
   var playerDiv = document.getElementById(targetId);
   if (!playerDiv || !KalturaPlayer || (KalturaPlayer.getPlayer && KalturaPlayer.getPlayer(targetId))) {
     return;
+  }
+
+  let listenersQueue: ListenerDetails[] = [];
+  if (isV2ToV7) {
+    (playerDiv as any).addJsListener = (eventName: string, callback: () => void) => {
+      listenersQueue.push({eventName, eventCallback: callback});
+    };
+    attachV2API(targetId);
   }
 
   let width = DEFAULT_WIDTH;
@@ -75,6 +86,7 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
         onClick: () => {
           try {
             const kalturaPlayer: Player = KalturaPlayer.setup(config);
+            listenersQueue.forEach((listenerDetails: ListenerDetails) => attachV7Listener(listenerDetails, kalturaPlayer));
             kalturaPlayer.loadMedia(mediaInfo, mediaOptions);
             kalturaPlayer.play();
           } catch (e) {
