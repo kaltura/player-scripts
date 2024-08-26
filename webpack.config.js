@@ -15,7 +15,7 @@ const config = {
     context: __dirname + '/src',
     entry: {
         "thumbnail-embed": 'thumbnail-embed/index.ts',
-        "v2-to-v7-embed": 'v2-to-v7/index.ts'
+        "playkit-player-scripts": 'v2-to-v7/index.ts'
     },
     output: {
         path: __dirname + '/dist',
