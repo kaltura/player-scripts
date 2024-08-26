@@ -1,5 +1,5 @@
 /**
- * A key mapping, where the key is the V2 flashvar configuration name and the value is the correlated V7 configuration path.
+ * A key mapping, where the key is the V2 flashvar configuration name and the value is the corresponding V7 configuration path.
  */
 const flashvarsKeyMapping: Record<string, string> = {
   "ks": "provider.ks",
@@ -31,7 +31,7 @@ const PLAYBACK_RATE_SELECTOR_SPEEDS = 'playbackRateSelector.speeds';
 const YOUBORA_USERNAME = 'youbora.username';
 
 /**
- * Gets the V7 configuration, based of the V2 flashvars.
+ * Gets the V7 configuration, based on the V2 flashvars.
  */
 export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<string,any> => {
   if (!flashvars || Object.keys(flashvars).length === 0) {

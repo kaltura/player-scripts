@@ -3,7 +3,7 @@ import {Player} from '../types';
 import {logger} from './utils/utils';
 
 /**
- * A key mapping, where the key is the V2 event name and the value is the correlated V7 event name.
+ * A key mapping, where the key is the V2 event name and the value is the corresponding V7 event name.
  */
 const eventsKeyMapping: Record<string, string> = {
   // playback
