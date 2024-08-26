@@ -6,6 +6,7 @@
     "build": "webpack --mode production",
     "release": "standard-version"
   },
+  "main": "dist/v2-to-v7-embed.js",
   "author": "",
   "license": "ISC",
   "devDependencies": {
