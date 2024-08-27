@@ -21,7 +21,7 @@ const config = {
         path: __dirname + '/dist',
         filename: '[name].js',
     },
-    devtool: 'source-map',
+    devtool: 'inline-source-map',
     plugins: plugins,
     module: {
         rules: [
