@@ -121,6 +121,6 @@ const flattenToDotNotation = (obj: Record<string, any>, parentKey = '', result: 
 };
 
 export const buildV7Config = (flashvars: Record<string, any>, v7Config: any): Record<string, any> => {
-  let configFromFlashvars = getConfigFromFlashvars(flashvars);
+  const configFromFlashvars = getConfigFromFlashvars(flashvars);
   return mergeDeep(configFromFlashvars, v7Config);
 }
