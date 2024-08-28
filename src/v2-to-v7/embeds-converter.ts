@@ -23,10 +23,6 @@ const v2PlayerEmbed = (v2Config: any) => {
   const {targetId, partnerId, mediaInfo} = getConfigIdsFromV2Config(v2Config);
 
   let config: any = {
-    // TODO: remove log config when done
-    log: {
-      level: 'DEBUG'
-    },
     targetId,
     provider: {
       partnerId

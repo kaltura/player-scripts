@@ -1,3 +1,5 @@
+import {mergeDeep} from "./utils";
+
 /**
  * A key mapping, where the key is the V2 flashvar configuration name and the value is the corresponding V7 configuration path.
  */
@@ -117,3 +119,8 @@ const flattenToDotNotation = (obj: Record<string, any>, parentKey = '', result: 
 
   return result;
 };
+
+export const buildV7Config = (flashvars: Record<string, any>, v7Config: any): Record<string, any> => {
+  let configFromFlashvars = getConfigFromFlashvars(flashvars);
+  return mergeDeep(configFromFlashvars, v7Config);
+}
