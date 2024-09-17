@@ -18,6 +18,9 @@
     "webpack-cli": "^5.1.4",
     "standard-version": "^9.5.0"
   },
+    "publishConfig": {
+    "access": "public"
+  },
   "browserslist": [
     "defaults"
   ]
