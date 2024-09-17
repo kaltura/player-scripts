@@ -4,6 +4,8 @@
   "description": "kaltura player scripts",
   "scripts": {
     "build": "webpack --mode production",
+    "release": "standard-version",
+    "pushTaggedRelease": "git push --follow-tags --no-verify origin master",
     "release": "standard-version"
   },
   "main": "dist/playkit-player-scripts.js",
