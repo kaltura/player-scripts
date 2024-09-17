@@ -5,7 +5,7 @@
   "scripts": {
     "build": "webpack --mode production",
     "release": "standard-version",
-    "pushTaggedRelease": "git push --follow-tags --no-verify origin master"
+    "pushTaggedRelease" : "git push --follow-tags --no-verify origin master"
   },
   "main": "dist/playkit-player-scripts.js",
   "author": "",
