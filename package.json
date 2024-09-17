@@ -1,5 +1,5 @@
 {
-  "name": "player-scripts",
+  "name": "@playkit-js/player-scripts",
   "version": "1.0.5",
   "description": "kaltura player scripts",
   "scripts": {
