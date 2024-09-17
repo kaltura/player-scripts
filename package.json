@@ -1,11 +1,11 @@
 {
   "name": "@playkit-js/player-scripts",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "kaltura player scripts",
   "scripts": {
     "build": "webpack --mode production",
     "release": "standard-version",
-    "pushTaggedRelease" : "git push --follow-tags --no-verify origin master"
+    "pushTaggedRelease": "git push --follow-tags --no-verify origin master"
   },
   "main": "dist/playkit-player-scripts.js",
   "author": "",
@@ -18,7 +18,7 @@
     "webpack-cli": "^5.1.4",
     "standard-version": "^9.5.0"
   },
-    "publishConfig": {
+  "publishConfig": {
     "access": "public"
   },
   "browserslist": [
