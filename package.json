@@ -1,6 +1,6 @@
 {
   "name": "player-scripts",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "kaltura player scripts",
   "scripts": {
     "build": "webpack --mode production",
