@@ -1,12 +1,11 @@
 {
   "name": "player-scripts",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "kaltura player scripts",
   "scripts": {
     "build": "webpack --mode production",
     "release": "standard-version",
-    "pushTaggedRelease": "git push --follow-tags --no-verify origin master",
-    "release": "standard-version"
+    "pushTaggedRelease": "git push --follow-tags --no-verify origin master"
   },
   "main": "dist/playkit-player-scripts.js",
   "author": "",
