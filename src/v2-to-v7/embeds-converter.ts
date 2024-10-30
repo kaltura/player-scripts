@@ -21,7 +21,7 @@ const attachV2Events = (targetId: string, kalturaPlayer: Player): void => {
 
 const addClassNameToParent = (targetId: string): void => {
   // add kWidgetIframeContainer className to the parent element for kms styling purposes
-  document.getElementById(targetId)?.parentElement?.classList.add('kWidgetIframeContainer');
+  document.getElementById(targetId)?.classList.add('kWidgetIframeContainer');
 };
 
 const v2PlayerEmbed = (v2Config: any) => {
