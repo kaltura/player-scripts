@@ -59,7 +59,8 @@ export const buildConfigFromFlashvars = (flashvars: Record<string, any>): Record
 
       newKeyPathParts.forEach((newKey, index) => {
         if (index === newKeyPathParts.length - 1) {
-          current[newKey] = flashvars[key];
+          const value = flashvars[key];
+          current[newKey] = value === "true" || value === "false" ? JSON.parse(value) : value;
         } else {
           if (!current[newKey]) {
             current[newKey] = {};
