@@ -19,6 +19,11 @@ const attachV2Events = (targetId: string, kalturaPlayer: Player): void => {
   }
 };
 
+const addClassNameToParent = (targetId: string): void => {
+  // add kWidgetIframeContainer className to the parent element for kms styling purposes
+  document.getElementById(targetId)?.parentElement?.classList.add('kWidgetIframeContainer');
+};
+
 const v2PlayerEmbed = (v2Config: any) => {
   const {targetId, partnerId, mediaInfo} = getConfigIdsFromV2Config(v2Config);
 
@@ -31,6 +36,8 @@ const v2PlayerEmbed = (v2Config: any) => {
 
   const convertedFlashvars = getConfigFromFlashvars(v2Config.flashvars);
   const mergedConfig = mergeDeep(config, convertedFlashvars);
+
+  addClassNameToParent(targetId);
 
   try {
     const kalturaPlayer: Player = KalturaPlayer.setup(mergedConfig);
@@ -61,6 +68,8 @@ const V2PlayerThumbEmbed = (v2Config: any) => {
 
     const convertedFlashvars = getConfigFromFlashvars(v2Config.flashvars);
     const mergedConfig = mergeDeep(config, convertedFlashvars);
+
+    addClassNameToParent(targetId);
 
     const thumbnailEmbedConfig: ThumbnailEmbedOptions = {
       config: mergedConfig,
