@@ -14,9 +14,11 @@ const KalturaPlayer: KalturaPlayer = window.KalturaPlayer;
 const attachV2Events = (targetId: string, kalturaPlayer: Player): void => {
   const playerDiv = document.getElementById(targetId);
   if (playerDiv) {
-    (playerDiv as any).addJsListener = (eventName: string, callback: () => void) => {
+    const attachListener = (eventName: string, callback: () => void) => {
       attachV7Listener({eventName, eventCallback: callback}, kalturaPlayer);
     };
+    (playerDiv as any).addJsListener = attachListener;
+    (playerDiv as any).kBind = attachListener
   }
 };
 
