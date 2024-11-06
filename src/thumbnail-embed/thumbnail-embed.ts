@@ -1,6 +1,6 @@
 import {ThumbnailEmbedComponent} from './thumbnail-embed-component';
 import {KalturaPlayer, Player, PlayerWindow} from '../types';
-import {ListenerDetails} from '../v2-to-v7/types';
+import {ListenerDetails, Callback} from '../v2-to-v7/types';
 import {attachV7Listener} from '../v2-to-v7/events-converter';
 import {attachV2API} from '../v2-to-v7/utils/api-converter';
 
@@ -31,7 +31,7 @@ const getCdnUrl = (config: any) => {
   return DEFAULT_CDN_URL;
 };
 
-const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}: ThumbnailEmbedOptions, isV2ToV7 = false) => {
+const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}: ThumbnailEmbedOptions, isV2ToV7 = false, readyCallbacks: Callback[] = []) => {
   if (!(config && mediaInfo)) {
     return;
   }
@@ -56,6 +56,7 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
       listenersQueue.push({eventName, eventCallback: callback});
     };
     attachV2API(targetId);
+    readyCallbacks.forEach(cb => cb(targetId));
   }
 
   let width = DEFAULT_WIDTH;

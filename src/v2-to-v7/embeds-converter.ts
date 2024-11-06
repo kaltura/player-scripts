@@ -5,6 +5,7 @@ import {getConfigIdsFromV2Config, logger, mergeDeep} from './utils/utils';
 import {attachV7Listener} from './events-converter';
 import {attachV2API} from './utils/api-converter';
 import {getConfigFromFlashvars} from './utils/flashvars-handler';
+import {Callback} from './types';
 
 declare let window: PlayerWindow;
 
@@ -24,8 +25,16 @@ const addClassNameToParent = (targetId: string): void => {
   document.getElementById(targetId)?.classList.add('kWidgetIframeContainer');
 };
 
+// Handle addReadyCallback API for when invoked before and after embed happened
+let globalTargetId: string | undefined = undefined;
+let readyCallbacks: Callback[] = [];
+const addReadyCallback = (cb: Callback) => {
+  globalTargetId ? cb(globalTargetId) : readyCallbacks.push(cb);
+};
+
 const v2PlayerEmbed = (v2Config: any) => {
   const {targetId, partnerId, mediaInfo} = getConfigIdsFromV2Config(v2Config);
+  globalTargetId = targetId;
 
   let config: any = {
     targetId,
@@ -44,6 +53,7 @@ const v2PlayerEmbed = (v2Config: any) => {
 
     attachV2Events(targetId, kalturaPlayer);
     attachV2API(targetId);
+    readyCallbacks.forEach((cb: Callback) => cb(targetId));
 
     const entryId = mediaInfo.id;
     if (mediaInfo.isPlaylist) {
@@ -58,6 +68,7 @@ const v2PlayerEmbed = (v2Config: any) => {
 
 const V2PlayerThumbEmbed = (v2Config: any) => {
   const {targetId, partnerId, mediaInfo} = getConfigIdsFromV2Config(v2Config);
+  globalTargetId = targetId;
   try {
     let config = {
       targetId,
@@ -77,10 +88,10 @@ const V2PlayerThumbEmbed = (v2Config: any) => {
         entryId: mediaInfo.id
       }
     };
-    thumbnailEmbed(thumbnailEmbedConfig, true);
+    thumbnailEmbed(thumbnailEmbedConfig, true, readyCallbacks);
   } catch (e) {
     logger.error('Failed to execute thumbnail embed from V2 to V7.', e);
   }
 };
 
-export {v2PlayerEmbed, V2PlayerThumbEmbed};
+export {v2PlayerEmbed, V2PlayerThumbEmbed, addReadyCallback};

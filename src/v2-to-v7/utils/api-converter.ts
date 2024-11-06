@@ -31,7 +31,6 @@ const addKWidgetAPI = (targetId: string): void => {
     isIE8: () => false,
     isAndroid: () => /Android/i.test(ua),
     isWindowsDevice: () => /Windows/i.test(ua),
-    addReadyCallback: () => {},
     destroy: () => getPlayer(targetId)?.destroy() || {},
     api: () => {},
     apiOptions: () => {},
