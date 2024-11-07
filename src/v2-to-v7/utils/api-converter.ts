@@ -52,7 +52,6 @@ const addAPIToPlayerElement = (targetId: string): void => {
 
   // The purpose of adding the following api functions is to prevent console errors
   playerEl.sendNotification = () => {};
-  playerEl.kBind = () => {};
   playerEl.kUnbind = () => {};
   playerEl.evaluate = () => {};
   playerEl.setKDPAttribute = () => {};
