@@ -23,8 +23,8 @@ const eventsKeyMapping: Record<string, string> = {
   "playerPaused": "pause",
   "playerPlayed": "play",
   "seek": "seeking",
-  "openFullScreen": "enterfullscreen",
-  "closeFullScreen": "exitfullscreen",
+  "openFullScreen": "playkit-ui-userenteredfullscreen",
+  "closeFullScreen": "playkit-ui-userexitedfullscreen",
   // playlist
   "playlistReady": "kaltura-player-playlistloaded",
 };
