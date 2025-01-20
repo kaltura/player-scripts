@@ -187,6 +187,18 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
           }
         });
         break;
+
+      // ANNOTO
+      case 'annotoPluginReady':
+        kalturaPlayer.addEventListener('annotoPluginReady', () => {
+          eventCallback();
+        });
+        break;
+      case 'annotoPluginSetup':
+        kalturaPlayer.addEventListener('annotoPluginSetup', () => {
+          eventCallback();
+        });
+        break;
       default:
         logger.log(`The event: '${eventName}' is not supported.`);
         break;
