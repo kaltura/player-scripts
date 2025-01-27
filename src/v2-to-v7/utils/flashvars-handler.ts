@@ -32,6 +32,37 @@ const flashvarsKeyMapping: Record<string, string> = {
 const PLAYBACK_RATE_SELECTOR_SPEEDS = 'playbackRateSelector.speeds';
 const YOUBORA_USERNAME = 'youbora.username';
 
+const handleAnnoto = (config: Record<string, any>): void => {
+  // load annoto V7 plugin script
+  const s: any = document.createElement('script');
+  s.src = 'https://cdn.annoto.net/playkit-plugin/latest/plugin.js';
+  s.id = "annotoV2toV7";
+  s.async = false;
+  document.head.appendChild(s);
+
+  // handle configuration
+  if (!config['plugins']) {
+    config.plugins = {};
+  }
+  config.plugins.annoto = {};
+
+  const annoto = (window as any).KApps?.annotoAppParams;
+  if (annoto) {
+    config.plugins.annoto = {
+      clientId: annoto.clientId,
+      group: {
+        id: annoto.groupDetails.id,
+        title: annoto.groupDetails.title
+      },
+      locale: annoto.ux.locale,
+      backend: {
+        domain: annoto.deploymentDomain
+      },
+      manualBoot: true
+    }
+  }
+};
+
 /**
  * Gets the V7 configuration, based on the V2 flashvars.
  */
@@ -41,7 +72,11 @@ export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<st
   }
 
   const flatFlashvars = flattenToDotNotation(flashvars);
-  return buildConfigFromFlashvars(flatFlashvars);
+  const config = buildConfigFromFlashvars(flatFlashvars);
+  if (flatFlashvars.annoto?.plugin === true) {
+    handleAnnoto(config);
+  }
+  return config;
 };
 
 /**
