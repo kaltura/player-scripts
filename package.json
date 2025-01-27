@@ -1,6 +1,6 @@
 {
   "name": "@playkit-js/player-scripts",
-  "version": "1.0.11",
+  "version": "1.0.12",
   "description": "kaltura player scripts",
   "scripts": {
     "build": "webpack --mode production",
