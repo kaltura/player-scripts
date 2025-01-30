@@ -73,7 +73,7 @@ export const getConfigFromFlashvars = (flashvars: Record<string,any>): Record<st
 
   const flatFlashvars = flattenToDotNotation(flashvars);
   const config = buildConfigFromFlashvars(flatFlashvars);
-  if (flatFlashvars.annoto?.plugin === true) {
+  if (flatFlashvars["annoto.plugin"] === "true") {
     handleAnnoto(config);
   }
   return config;
