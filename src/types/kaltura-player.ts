@@ -3,6 +3,12 @@ import { Player } from "./player";
 interface KalturaPlayer {
     getPlayer: (targetId: string) => Player;
     setup(config: any): Player;
+    core: {
+      EventType: {
+        [key: string]: string
+      };
+      FakeEvent: any
+    };
     ui: {
       style: any;
       preact: { h: any; render: any; };
