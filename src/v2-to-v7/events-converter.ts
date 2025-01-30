@@ -199,6 +199,11 @@ export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer
           eventCallback();
         });
         break;
+      case 'QuizSubmitted':
+        kalturaPlayer.addEventListener('QuizSubmitted', (event: any) => {
+          eventCallback(event.payload);
+        });
+        break;
       default:
         logger.log(`The event: '${eventName}' is not supported.`);
         break;
