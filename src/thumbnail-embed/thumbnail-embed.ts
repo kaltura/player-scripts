@@ -100,6 +100,9 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
             listenersQueue.forEach((listenerDetails: ListenerDetails) => attachV7Listener(listenerDetails, kalturaPlayer));
             kalturaPlayer.loadMedia(mediaInfo, mediaOptions);
             kalturaPlayer.play();
+            if(playerDiv) {
+              resizeObserver.unobserve(playerDiv);
+            }
           } catch (e) {
             /* */
           }
