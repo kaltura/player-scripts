@@ -69,6 +69,14 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
     height = playerDiv.clientHeight;
   }
 
+  const resizeObserver = new ResizeObserver(() => {
+    if(playerDiv) {
+      playerDiv.dispatchEvent(new Event(KalturaPlayer.core.EventType.RESIZE));
+    }
+  });
+  
+  resizeObserver.observe(playerDiv);
+
   const src =
     `${cdnUrl.endsWith('/') ? cdnUrl : cdnUrl + '/'}` +
     `p/${partnerId}` +
@@ -92,6 +100,9 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
             listenersQueue.forEach((listenerDetails: ListenerDetails) => attachV7Listener(listenerDetails, kalturaPlayer));
             kalturaPlayer.loadMedia(mediaInfo, mediaOptions);
             kalturaPlayer.play();
+            if(playerDiv) {
+              resizeObserver.unobserve(playerDiv);
+            }
           } catch (e) {
             /* */
           }
