@@ -71,7 +71,7 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
 
   const resizeObserver = new ResizeObserver(() => {
     if(playerDiv) {
-      playerDiv.dispatchEvent(new KalturaPlayer.core.FakeEvent(KalturaPlayer.core.EventType.RESIZE));
+      playerDiv.dispatchEvent(new Event(KalturaPlayer.core.EventType.RESIZE));
     }
   });
   
