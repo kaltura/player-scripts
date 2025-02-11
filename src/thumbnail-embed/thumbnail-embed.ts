@@ -53,7 +53,7 @@ const thumbnailEmbed = ({config, mediaInfo, mediaOptions = {}, version, bgColor}
   let listenersQueue: ListenerDetails[] = [];
   if (isV2ToV7) {
     const addListenerToQueue = (eventName: string, callback: () => void) => {
-      listenersQueue.push({eventName, eventCallback: callback});
+      listenersQueue.push({eventName, eventCb: callback});
     };
     (playerDiv as any).addJsListener = addListenerToQueue;
     (playerDiv as any).kBind = addListenerToQueue;
