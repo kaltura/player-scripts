@@ -33,9 +33,11 @@ const PLAYBACK_RATE_SELECTOR_SPEEDS = 'playbackRateSelector.speeds';
 const YOUBORA_USERNAME = 'youbora.username';
 
 const handleAnnoto = (config: Record<string, any>): void => {
+  const annoto = (window as any).KApps?.annotoAppParams || {};
+
   // load annoto V7 plugin script
   const s: any = document.createElement('script');
-  s.src = 'https://cdn.annoto.net/playkit-plugin/latest/plugin.js';
+  s.src = annoto.v7PlayerPluginUrl || 'https://cdn.annoto.net/playkit-plugin/latest/plugin.js';
   s.id = "annotoV2toV7";
   s.async = false;
   document.head.appendChild(s);
@@ -44,23 +46,7 @@ const handleAnnoto = (config: Record<string, any>): void => {
   if (!config['plugins']) {
     config.plugins = {};
   }
-  config.plugins.annoto = {};
-
-  const annoto = (window as any).KApps?.annotoAppParams;
-  if (annoto) {
-    config.plugins.annoto = {
-      clientId: annoto.clientId,
-      group: {
-        id: annoto.groupDetails.id,
-        title: annoto.groupDetails.title
-      },
-      locale: annoto.ux.locale,
-      backend: {
-        domain: annoto.deploymentDomain
-      },
-      manualBoot: true
-    }
-  }
+  config.plugins.annoto = { manualBoot: true };
 };
 
 /**
