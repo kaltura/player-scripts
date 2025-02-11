@@ -30,9 +30,9 @@ const eventsKeyMapping: Record<string, string> = {
 };
 
 const convertEventCallbackToFunction = (eventCb: string): Callback => {
-  const funcParts = eventCb.split('.');
+  const funcPathParts = eventCb.split('.');
   let func: any = window;
-  for (let part of funcParts) {
+  for (let part of funcPathParts) {
     func = func[part];
   }
   return func;
