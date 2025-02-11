@@ -1,4 +1,4 @@
-import {ListenerDetails} from './types';
+import {Callback, ListenerDetails} from './types';
 import {Player} from '../types';
 import {logger} from './utils/utils';
 
@@ -29,8 +29,20 @@ const eventsKeyMapping: Record<string, string> = {
   "playlistReady": "kaltura-player-playlistloaded",
 };
 
+const convertEventCallbackToFunction = (eventCb: string): Callback => {
+  const funcParts = eventCb.split('.');
+  let func: any = window;
+  for (let part of funcParts) {
+    func = func[part];
+  }
+  return func;
+};
+
 export const attachV7Listener = (listenerDetails: ListenerDetails, kalturaPlayer: Player) => {
-  const { eventName, eventCallback } = listenerDetails;
+  const { eventName, eventCb } = listenerDetails;
+
+  // event callback can be a string that represents the path to the callback function - convert it to function
+  const eventCallback: Callback = typeof eventCb === 'string' ? convertEventCallbackToFunction(eventCb) : eventCb;
 
   if (eventsKeyMapping[eventName]) {
     kalturaPlayer.addEventListener(eventsKeyMapping[eventName], () => {

@@ -1,6 +1,8 @@
+import {Callback} from "./callback";
+
 interface ListenerDetails {
   eventName: string;
-  eventCallback: (...args: any[]) => void;
+  eventCb: string | Callback;
 }
 
 export {ListenerDetails};
